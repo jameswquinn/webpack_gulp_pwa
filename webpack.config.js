@@ -48,7 +48,6 @@ const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-const CompressionPlugin = require("compression-webpack-plugin");
 const { GenerateSW } = require("workbox-webpack-plugin");
 const WebpackBuildNotifierPlugin = require("webpack-build-notifier");
 
@@ -192,10 +191,6 @@ module.exports = {
         removeAttributeQuotes: false,
         collapseWhitespace: true,
         removeComments: true
-      },
-      meta: {
-        description: "A description",
-        author: "My Name"
       }
     }),
     new GenerateSW({
