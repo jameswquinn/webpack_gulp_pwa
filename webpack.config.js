@@ -56,7 +56,7 @@ const WebpackBuildNotifierPlugin = require("webpack-build-notifier");
 module.exports = {
   mode: "production",
   entry: {
-    //app: "./src/index",
+    app: "./src/index",
     main: "./src/main"
   },
   output: {
@@ -221,7 +221,7 @@ module.exports = {
       suppressSuccess: true
     }),
     new BundleAnalyzerPlugin({
-      analyzerMode: "disabled"
+      analyzerMode: "static"
     })
   ],
   optimization: {
