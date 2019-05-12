@@ -42,7 +42,6 @@ const precss = require("precss");
 
 const TerserPlugin = require("terser-webpack-plugin");
 
-
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -53,7 +52,6 @@ const { GenerateSW } = require("workbox-webpack-plugin");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin;
 const WebpackBuildNotifierPlugin = require("webpack-build-notifier");
-
 
 module.exports = {
   mode: "production",
@@ -214,7 +212,6 @@ module.exports = {
       analyzerMode: "static"
     })
   ],
-
   optimization: {
     minimizer: [
       new OptimizeCssAssetsPlugin(),
