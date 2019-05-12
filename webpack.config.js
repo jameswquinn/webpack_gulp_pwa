@@ -56,7 +56,8 @@ const WebpackBuildNotifierPlugin = require("webpack-build-notifier");
 module.exports = {
   mode: "production",
   entry: {
-    app: "./src/index"
+    //app: "./src/index",
+    main: "./src/main"
   },
   output: {
     pathinfo: false,
@@ -146,6 +147,17 @@ module.exports = {
         }
       },
       {
+        test: /\.svelte$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "svelte-loader",
+          options: {
+            emitCss: true,
+            hotReload: true
+          }
+        }
+      },
+      {
         test: /\.(png|jpg|jpeg|gif|svg)$/,
         use: {
           loader: "file-loader",
@@ -209,7 +221,7 @@ module.exports = {
       suppressSuccess: true
     }),
     new BundleAnalyzerPlugin({
-      analyzerMode: "static"
+      analyzerMode: "disabled"
     })
   ],
   optimization: {
