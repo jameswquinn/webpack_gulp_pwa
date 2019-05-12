@@ -60,8 +60,8 @@ module.exports = {
   },
   output: {
     pathinfo: false,
-    chunkFilename: "[name][hash].js",
-    filename: "[name][hash].js"
+    chunkFilename: "[name][contentHash].js",
+    filename: "[name][contentHash].js"
   },
   devServer: {
     contentBase: path.join(__dirname, "dist"),
@@ -84,7 +84,13 @@ module.exports = {
             [
               "@babel/preset-env",
               {
-                modules: false
+                modules: false,
+                targets: [
+                  "last 1 version",
+                  "> 1%",
+                  "maintained node versions",
+                  "not dead"
+                ]
               }
             ]
           ]
@@ -171,9 +177,9 @@ module.exports = {
       dry: false
     }),
     new MiniCssExtractPlugin({
-      filename: "[name][hash].css",
+      filename: "[name][contentHash].css",
       //chunkFilename: "[name][id].css"
-      chunkFilename: "[name][hash].css"
+      chunkFilename: "[name][contentHash].css"
     }),
     new CopyWebpackPlugin([{ from: "icons", to: "." }]),
     new HtmlWebpackPlugin({
