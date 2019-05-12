@@ -1,45 +1,183 @@
-/**
-@license
-MIT License
+const webpack = require("webpack");
+const path = require("path");
 
-Copyright (c) 2019 
+/*
+ * We've enabled Postcss, autoprefixer and precss for you. This allows your app
+ * to lint  CSS, support variables and mixins, transpile future CSS syntax,
+ * inline images, and more!
+ *
+ * To enable SASS or LESS, add the respective loaders to module.rules
+ *
+ * https://github.com/postcss/postcss
+ *
+ * https://github.com/postcss/autoprefixer
+ *
+ * https://github.com/jonathantneal/precss
+ *
+ */
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+const autoprefixer = require("autoprefixer");
+const precss = require("precss");
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+/*
+ * SplitChunksPlugin is enabled by default and replaced
+ * deprecated CommonsChunkPlugin. It automatically identifies modules which
+ * should be splitted of chunk by heuristics using module duplication count and
+ * module category (i. e. node_modules). And splits the chunks…
+ *
+ * It is safe to remove "splitChunks" from the generated configuration
+ * and was added as an educational example.
+ *
+ * https://webpack.js.org/plugins/split-chunks-plugin/
+ *
+ */
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-*/
+/*
+ * We've enabled TerserPlugin for you! This minifies your app
+ * in order to load faster and run less javascript.
+ *
+ * https://github.com/webpack-contrib/terser-webpack-plugin
+ *
+ */
+
+const TerserPlugin = require("terser-webpack-plugin");
 
 
-
-
+const CleanWebpackPlugin = require("clean-webpack-plugin");
+const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const CompressionPlugin = require("compression-webpack-plugin");
 const { GenerateSW } = require("workbox-webpack-plugin");
 const WebpackBuildNotifierPlugin = require("webpack-build-notifier");
-const path = require("path");
+
 
 module.exports = {
   mode: "production",
+  devServer: {
+    contentBase: path.join(__dirname, "dist"),
+    compress: true,
+    port: 9000,
+    historyApiFallback: true,
+    overlay: {
+      warnings: true,
+      errors: true
+    }
+  },
+  module: {
+    rules: [
+      {
+        include: [path.resolve(__dirname, "src")],
+        loader: "babel-loader",
+        options: {
+          plugins: ["syntax-dynamic-import"],
+          presets: [
+            [
+              "@babel/preset-env",
+              {
+                modules: false
+              }
+            ]
+          ]
+        },
+        test: /\.js$/
+      },
+      {
+        test: /\.tsx?$/,
+        use: [
+          {
+            loader: "ts-loader",
+            options: {
+              transpileOnly: true,
+              experimentalWatchApi: true
+            }
+          }
+        ]
+      },
+      {
+        test: /\.s?[ac]ss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+            options: {
+              url: false,
+              sourceMap: true
+            }
+          },
+          {
+            loader: "postcss-loader",
+            options: {
+              plugins: function() {
+                return [precss, autoprefixer];
+              }
+            }
+          },
+          {
+            loader: "sass-loader",
+            options: {
+              sourceMap: true
+            }
+          }
+        ]
+      },
+      {
+        test: /\.html$/,
+        use: {
+          loader: "html-loader",
+          options: {
+            attrs: ["img:data-src"]
+          }
+        }
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif|svg)$/,
+        use: {
+          loader: "file-loader",
+          options: {
+            name: "[name].[hash].[ext]",
+            outputPath: "imgs"
+          }
+        }
+      },
+      {
+        test: /\.(woff|woff2|ttf|eot)$/,
+        use: {
+          loader: "file-loader",
+          options: {
+            name: "[name].[hash].[ext]",
+            outputPath: "fonts"
+          }
+        }
+      }
+    ]
+  },
+  resolve: {
+    extensions: [".tsx", ".ts", ".js"]
+  },
   plugins: [
-    new CopyWebpackPlugin([
-      { from: "icons", to: "." }
-    ]),
+    new CleanWebpackPlugin({
+      root: path.join(__dirname, "dist"),
+      verbose: true,
+      dry: false
+    }),
+    new MiniCssExtractPlugin({
+      filename: "[name].css",
+      //chunkFilename: "[name][id].css"
+      chunkFilename: "[name].css"
+    }),
+    new CopyWebpackPlugin([{ from: "icons", to: "." }]),
     new HtmlWebpackPlugin({
-      template: "src/index.html"
+      hash: true,
+      template: "./src/index.html",
+      filename: "index.html",
+      chunksSortMode: "none",
+      minify: {
+        removeAttributeQuotes: false,
+        collapseWhitespace: true,
+        removeComments: true
+      }
     }),
     new GenerateSW({
       swDest: "service-worker.js",
@@ -52,5 +190,32 @@ module.exports = {
       logo: path.resolve("src/assets/icons/ios-icon.png"),
       suppressSuccess: true
     })
-  ]
+  ],
+
+  optimization: {
+    minimizer: [
+      new OptimizeCssAssetsPlugin(),
+      new TerserPlugin({
+        cache: true,
+        parallel: true,
+        extractComments: true,
+        sourceMap: true, // Must be set to true if using source-maps in production
+        terserOptions: {
+          // https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
+        }
+      })
+    ],
+    splitChunks: {
+      cacheGroups: {
+        vendors: {
+          priority: -10,
+          test: /[\\/]node_modules[\\/]/
+        }
+      },
+      chunks: "all",
+      minChunks: 1,
+      minSize: 30000,
+      name: true
+    }
+  }
 };

@@ -1,0 +1,47 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=759670
+    // for the documentation about the jsconfig.json format
+    "sourceMap": true,
+    "compilerOptions": {
+        "experimentalDecorators": true,
+        "baseUrl": ".",
+        "paths": {
+            "*": ["types/*"],
+            "lit-html": ["node_modules/lit-html/lit-html.d.ts"],
+            "lit-element": ["node_modules/lit-element/lit-element.d.ts"],
+            "timeago.js": ["node_modules/timeago.js/timeago.d.ts"],
+            "dayjs": ["node_modules/dayjs/index.d.ts"],
+            "dayjs/plugin/advancedFormat": ["node_modules/dayjs/plugin/advancedFormat.d.ts"],
+            "dayjs/plugin/badMutable": ["node_modules/dayjs/plugin/badMutable.d.ts"],
+            "dayjs/plugin/buddhistEra": ["node_modules/dayjs/plugin/buddhistEra.d.ts"],
+            "dayjs/plugin/calendar": ["node_modules/dayjs/plugin/calendar.d.ts"],
+            "dayjs/plugin/customParseFormat": ["node_modules/dayjs/plugin/customParseFormat.d.ts"],
+            "dayjs/plugin/dayOfYear": ["node_modules/dayjs/plugin/dayOfYear.d.ts"],
+            "dayjs/plugin/isBetween": ["node_modules/dayjs/plugin/isBetween.d.ts"],
+            "dayjs/plugin/isLeapYear": ["node_modules/dayjs/plugin/isLeapYear.d.ts"],
+            "dayjs/plugin/isMoment": ["node_modules/dayjs/plugin/isMoment.d.ts"],
+            "dayjs/plugin/isSameOrAfter": ["node_modules/dayjs/plugin/isSameOrAfter.d.ts"],
+            "dayjs/plugin/isSameOrBefore": ["node_modules/dayjs/plugin/isSameOrBefore.d.ts"],
+            "dayjs/plugin/isoWeeksInYear": ["node_modules/dayjs/plugin/isoWeeksInYear.d.ts"],
+            "dayjs/plugin/localeData": ["node_modules/dayjs/plugin/localeData.d.ts"],
+            "dayjs/plugin/localizedFormat": ["node_modules/dayjs/plugin/localizedFormat.d.ts"],
+            "dayjs/plugin/minMax": ["node_modules/dayjs/plugin/minMax.d.ts"],
+            "dayjs/plugin/quarterOfYear": ["node_modules/dayjs/plugin/quarterOfYear.d.ts"],
+            "dayjs/plugin/relativeTime": ["node_modules/dayjs/plugin/relativeTime.d.ts"],
+            "dayjs/plugin/toArray": ["node_modules/dayjs/plugin/toArray.d.ts"],
+            "dayjs/plugin/toObject": ["node_modules/dayjs/plugin/toObject.d.ts"],
+            "dayjs/plugin/utc": ["node_modules/dayjs/plugin/utc.d.ts"],
+            "dayjs/plugin/weekOfYear": ["node_modules/dayjs/plugin/weekOfYear.d.ts"],
+            "dayjs/plugin/weekYear": ["node_modules/dayjs/plugin/weekYear.d.ts"],
+            "dayjs/plugin/weekday": ["node_modules/dayjs/plugin/weekday.d.ts"]
+        },
+        "outDir": "./dist/",
+        "target": "es6",
+        "module": "esnext",
+        "allowSyntheticDefaultImports": true
+    },
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}
