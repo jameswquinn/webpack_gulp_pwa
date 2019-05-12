@@ -23,18 +23,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-const WebpackBuildNotifierPlugin = require("webpack-build-notifier");
+
+
+
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const { GenerateSW } = require("workbox-webpack-plugin");
+const WebpackBuildNotifierPlugin = require("webpack-build-notifier");
 const path = require("path");
 
 module.exports = {
   mode: "production",
   plugins: [
     new CopyWebpackPlugin([
-      { from: "src/index.html", to: "." },
       { from: "icons", to: "." }
     ]),
+    new HtmlWebpackPlugin({
+      template: "src/index.html"
+    }),
     new GenerateSW({
       swDest: "service-worker.js",
       skipWaiting: true,
