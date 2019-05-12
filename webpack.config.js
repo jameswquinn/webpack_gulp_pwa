@@ -1,3 +1,5 @@
+/**
+@license
 MIT License
 
 Copyright (c) 2019 
@@ -19,3 +21,30 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+*/
+
+const WebpackBuildNotifierPlugin = require("webpack-build-notifier");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const { GenerateSW } = require("workbox-webpack-plugin");
+const path = require("path");
+
+module.exports = {
+  mode: "production",
+  plugins: [
+    new CopyWebpackPlugin([
+      { from: "src/index.html", to: "." },
+      { from: "icons", to: "." }
+    ]),
+    new GenerateSW({
+      swDest: "service-worker.js",
+      skipWaiting: true,
+      clientsClaim: true,
+      navigateFallback: "index.html"
+    }),
+    new WebpackBuildNotifierPlugin({
+      title: "My Project Webpack Build",
+      logo: path.resolve("src/assets/icons/ios-icon.png"),
+      suppressSuccess: true
+    })
+  ]
+};

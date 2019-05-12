@@ -1,0 +1,43 @@
+{
+    "name": "pwa-starter-kit",
+    "version": "0.9.0",
+    "contributors": [],
+    "license": "",
+    "repository": "Polymer/pwa-starter-kit",
+    "scripts": {
+        "build": "webpack",
+        "favicon": "gulp favicon"
+    },
+    "dependencies": {
+        "lit-element": "^2.0.0-rc.2"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.2.0",
+        "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+        "@babel/preset-env": "^7.2.0",
+        "babel-loader": "^8.0.4",
+        "clean-webpack-plugin": "^2.0.2",
+        "compression-webpack-plugin": "^2.0.0",
+        "copy-webpack-plugin": "^4.6.0",
+        "css-loader": "^2.1.1",
+        "gulp": "^4.0.2",
+        "gulp-favicons": "^2.3.0",
+        "html-webpack-plugin": "^3.2.0",
+        "mini-css-extract-plugin": "^0.6.0",
+        "optimize-css-assets-webpack-plugin": "^5.0.1",
+        "polyserve": "^0.27.15",
+        "postcss-loader": "^3.0.0",
+        "puppeteer": "^1.15.0",
+        "rimraf": "^2.6.3",
+        "sass-loader": "^7.1.0",
+        "terser-webpack-plugin": "^1.2.3",
+        "ts-loader": "^6.0.0",
+        "typescript": "^3.4.5",
+        "webpack": "^4.10.2",
+        "webpack-build-notifier": "^1.0.2",
+        "webpack-cli": "^3.1.2",
+        "webpack-dev-server": "^3.1.4",
+        "webpack-pwa-manifest": "^4.0.0",
+        "workbox-webpack-plugin": "^3.6.3"
+    }
+}
