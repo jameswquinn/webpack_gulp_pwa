@@ -50,6 +50,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 const { GenerateSW } = require("workbox-webpack-plugin");
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
+  .BundleAnalyzerPlugin;
 const WebpackBuildNotifierPlugin = require("webpack-build-notifier");
 
 
@@ -207,6 +209,9 @@ module.exports = {
       title: "My Project Webpack Build",
       logo: path.resolve("src/assets/icons/ios-icon.png"),
       suppressSuccess: true
+    }),
+    new BundleAnalyzerPlugin({
+      analyzerMode: "static"
     })
   ],
 
