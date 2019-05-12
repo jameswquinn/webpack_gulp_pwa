@@ -55,6 +55,14 @@ const WebpackBuildNotifierPlugin = require("webpack-build-notifier");
 
 module.exports = {
   mode: "production",
+  entry: {
+    app: "./src/index"
+  },
+  output: {
+    pathinfo: false,
+    chunkFilename: "[name][hash].js",
+    filename: "[name][hash].js"
+  },
   devServer: {
     contentBase: path.join(__dirname, "dist"),
     compress: true,
@@ -136,7 +144,7 @@ module.exports = {
         use: {
           loader: "file-loader",
           options: {
-            name: "[name].[hash].[ext]",
+            name: "[name][hash].[ext]",
             outputPath: "imgs"
           }
         }
@@ -146,7 +154,7 @@ module.exports = {
         use: {
           loader: "file-loader",
           options: {
-            name: "[name].[hash].[ext]",
+            name: "[name][hash].[ext]",
             outputPath: "fonts"
           }
         }
@@ -163,20 +171,25 @@ module.exports = {
       dry: false
     }),
     new MiniCssExtractPlugin({
-      filename: "[name].[hash].css",
+      filename: "[name][hash].css",
       //chunkFilename: "[name][id].css"
-      chunkFilename: "[name].[hash].css"
+      chunkFilename: "[name][hash].css"
     }),
     new CopyWebpackPlugin([{ from: "icons", to: "." }]),
     new HtmlWebpackPlugin({
-      hash: true,
+      //hash: true,
       template: "./src/index.html",
+      title: "webpack pwa starter kit",
       filename: "index.html",
       chunksSortMode: "none",
       minify: {
         removeAttributeQuotes: false,
         collapseWhitespace: true,
         removeComments: true
+      },
+      meta: {
+        description: "A description",
+        author: "My Name"
       }
     }),
     new GenerateSW({
