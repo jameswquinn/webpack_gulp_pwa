@@ -163,9 +163,9 @@ module.exports = {
       dry: false
     }),
     new MiniCssExtractPlugin({
-      filename: "[name].css",
+      filename: "[name].[hash].css",
       //chunkFilename: "[name][id].css"
-      chunkFilename: "[name].css"
+      chunkFilename: "[name].[hash].css"
     }),
     new CopyWebpackPlugin([{ from: "icons", to: "." }]),
     new HtmlWebpackPlugin({
